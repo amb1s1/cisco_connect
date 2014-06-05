@@ -1,3 +1,4 @@
+
 ''' This script is specially design for cisco router and switches. This
 is going to be use to ssh into cisco devices.  This script is base on Pexpect
 and to be able to use it, you would need a good knowledge of pexpect.
@@ -18,11 +19,15 @@ PEXPECT LICENSE
     WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
     ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
+    
+My info:
+Written by David Gomez
+Questions: davidgomez.255@gmail.com
 '''
 import sys
 import pexpect
 
+#This function is to ssh to the device
 def cjump(usr, pwd, enpwd, ip):
     child = pexpect.spawn(
         'ssh -o StrictHostKeyChecking=no -l ' + usr + " " + ip)
@@ -30,9 +35,9 @@ def cjump(usr, pwd, enpwd, ip):
         ['[Pp]assword:', pexpect.EOF, pexpect.TIMEOUT, 'refused'])
     if index == 0:
         child.sendline(pwd)
-
-        index = child.expect(
-            ['~>', '>', 'assword:', '#', pexpect.EOF, pexpect.TIMEOUT])
+        #The child expect will return integer number of the match
+        #'~>' Linux prompt, '>' device prompt, '#', enable prompt
+        index = child.expect(['~>', '>', 'assword:', '#', pexpect.EOF, pexpect.TIMEOUT])
         if index == 0:
             return 'Connection Closed'
         elif index == 1:
@@ -54,6 +59,7 @@ def cjump(usr, pwd, enpwd, ip):
         return 'connection refused'
     else:
         return False
+#this funtion will put the device in enable mode
 def enable(child, enpwd):
 
     child.sendline('enable')
@@ -85,7 +91,7 @@ def enable(child, enpwd):
         return 'Getting EOF Error'
     elif i == 4:
         return 'Timeout'
-
+#This function will return a hostname name
 def hostname(child):
     child.sendline(' ')
     index = child.expect(['#', pexpect.EOF, pexpect.TIMEOUT])
@@ -98,7 +104,7 @@ def hostname(child):
         return 'Getting EOF Error'
     elif index == 2:
         return 'Getting EOF Error'
-
+#This function will disable the more page when getting loging outputs
 def term(child,hostname):
     host = hostname
     child.sendline('terminal length 0')
@@ -110,7 +116,7 @@ def term(child,hostname):
         return 'Getting EOF Error'
     elif index == 2:
         return 'Getting EOF Error'
-
+#this will return the device running config
 def runconfig(child, hostname):
     host = hostname
     child.sendline('term len 0')
@@ -119,18 +125,7 @@ def runconfig(child, hostname):
     child.expect(host + '#')
     run = child.before.split('\n')
     return run
-
-def prompt(child, hostname):
-    host = hostname
-    index = child.expect(
-        [host + '#', pexpect.EOF, pexpect.TIMEOUT])
-    if index == 0:
-        return True
-    elif index == 1:
-        return 'Getting EOF Error'
-    elif index == 2:
-      return 'Getting EOF Error'
-
+#this will close the ssh sesssion 
 def close(child):
     child.sendline('exit')
     i = child.expect([':~>', '>',pexpect.EOF, pexpect.TIMEOUT])
