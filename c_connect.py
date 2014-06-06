@@ -19,7 +19,7 @@ PEXPECT LICENSE
     WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
     ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-    
+
 My info:
 Written by David Gomez
 Questions: davidgomez.255@gmail.com
@@ -28,7 +28,7 @@ import sys
 import pexpect
 
 #This function is to ssh to the device
-def cjump(usr, pwd, enpwd, ip):
+def cjump(usr, pwd, ip):
     child = pexpect.spawn(
         'ssh -o StrictHostKeyChecking=no -l ' + usr + " " + ip)
     index = child.expect(
