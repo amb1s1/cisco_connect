@@ -1,7 +1,7 @@
 
 ''' This script is specially design for cisco router and switches. This
-is going to be use to ssh into cisco devices.  This script is base on Pexpect
-and to be able to use it, you would need a good knowledge of pexpect.
+is going to be used to ssh into cisco devices.  This script is base on Pexpect
+and to be able to use it, you would need a good knowledge of it.
 
 PEXPECT LICENSE
 
