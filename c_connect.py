@@ -46,7 +46,7 @@ def cjump(usr, pwd, ip):
             child.sendcontrol('c')
             return 'Please check your TACAS Username and Password'
         elif index == 3:
-            return 'enable'
+            return 'enable', child
         elif index == 4:
             return 'Timeout'
         elif index == 5:
